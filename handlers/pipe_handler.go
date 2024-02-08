@@ -9,11 +9,11 @@ import (
 
 func PipeWrapper(cmdName string) func(w http.ResponseWriter, filepath string) error {
 	return func(w http.ResponseWriter, filepath string) error {
-		return PipeHandler(cmdName, w, filepath)
+		return pipeHandler(cmdName, w, filepath)
 	}
 }
 
-func PipeHandler(cmdName string, w http.ResponseWriter, filepath string) error {
+func pipeHandler(cmdName string, w http.ResponseWriter, filepath string) error {
 
 	f, err := os.Open(filepath)
 	if err != nil {

@@ -8,11 +8,11 @@ import (
 
 func ArgWrapper(cmdName string) func(w http.ResponseWriter, filepath string) error {
 	return func(w http.ResponseWriter, filepath string) error {
-		return ArgHandler(cmdName, w, filepath)
+		return argHandler(cmdName, w, filepath)
 	}
 }
 
-func ArgHandler(cmdName string, w http.ResponseWriter, filepath string) error {
+func argHandler(cmdName string, w http.ResponseWriter, filepath string) error {
 	stdout, err := runCmd(exec.Command(cmdName, filepath))
 	if err != nil {
 		return err
