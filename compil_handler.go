@@ -9,13 +9,16 @@ import (
 )
 
 func CHandler(w http.ResponseWriter, filepath string) error {
-	return CCppHandler("gcc", w, filepath)
+	return CompilHandler("gcc", w, filepath)
 }
 func CppHandler(w http.ResponseWriter, filepath string) error {
-	return CCppHandler("g++", w, filepath)
+	return CompilHandler("g++", w, filepath)
+}
+func RustHandler(w http.ResponseWriter, filepath string) error {
+	return CompilHandler("rustc", w, filepath)
 }
 
-func CCppHandler(compiler string, w http.ResponseWriter, filepath string) error {
+func CompilHandler(compiler string, w http.ResponseWriter, filepath string) error {
 
 	tmpFolder, err := os.MkdirTemp("", "phpbutbetter")
 	if err != nil {
