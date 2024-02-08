@@ -22,6 +22,8 @@ func getEnv(key, fallback string) string {
 
 func GetSpecificHandler(ext string) func(w http.ResponseWriter, filepath string) error {
 	switch ext {
+	case ".c":
+		return CHandler
 	case ".cpp":
 		return CppHandler
 	case ".go":

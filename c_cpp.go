@@ -8,7 +8,14 @@ import (
 	"path"
 )
 
+func CHandler(w http.ResponseWriter, filepath string) error {
+	return CCppHandler("gcc", w, filepath)
+}
 func CppHandler(w http.ResponseWriter, filepath string) error {
+	return CCppHandler("g++", w, filepath)
+}
+
+func CCppHandler(compiler string, w http.ResponseWriter, filepath string) error {
 
 	tmpFolder, err := os.MkdirTemp("", "phpbutbetter")
 	if err != nil {
@@ -16,7 +23,7 @@ func CppHandler(w http.ResponseWriter, filepath string) error {
 	}
 
 	compiledCodePath := path.Join(tmpFolder, "a.out")
-	_, err = RunCmd(exec.Command("g++", filepath, "-o", compiledCodePath))
+	_, err = RunCmd(exec.Command(compiler, filepath, "-o", compiledCodePath))
 	if err != nil {
 		return err
 	}
