@@ -1,4 +1,3 @@
-// Brainfuck
 package main
 
 import (
@@ -8,14 +7,20 @@ import (
 	"os/exec"
 )
 
-func PyHandler(w http.ResponseWriter, filepath string) error {
+func PipeWrapper(cmdName string) func(w http.ResponseWriter, filepath string) error {
+	return func(w http.ResponseWriter, filepath string) error {
+		return PipeHandler(cmdName, w, filepath)
+	}
+}
+
+func PipeHandler(cmdName string, w http.ResponseWriter, filepath string) error {
 
 	f, err := os.Open(filepath)
 	if err != nil {
 		return fmt.Errorf("Failed to open file: %w", err)
 	}
 
-	cmd := exec.Command("python")
+	cmd := exec.Command(cmdName)
 	cmd.Stdin = f
 	stdout, err := RunCmd(cmd)
 	if err != nil {

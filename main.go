@@ -31,11 +31,11 @@ func GetSpecificHandler(ext string) func(w http.ResponseWriter, filepath string)
 	case ".java":
 		return JavaHandler
 	case ".b":
-		return BfHandler
+		return PipeWrapper("bf")
 	case ".py":
-		return PyHandler
+		return PipeWrapper("python")
 	case ".js":
-		return NodeHandler
+		return PipeWrapper("node")
 	}
 	return nil
 }
