@@ -36,6 +36,8 @@ func GetSpecificHandler(ext string) func(w http.ResponseWriter, filepath string)
 		return PipeWrapper("python")
 	case ".js":
 		return PipeWrapper("node")
+	case ".rs":
+		return RustHandler
 	}
 	return nil
 }
