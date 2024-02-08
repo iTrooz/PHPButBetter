@@ -3,10 +3,11 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"os/exec"
 )
 
 func GoHandler(w http.ResponseWriter, filepath string) error {
-	stdout, err := RunCmd("go", "run", filepath)
+	stdout, err := RunCmd(exec.Command("go", "run", filepath))
 	if err != nil {
 		return err
 	}

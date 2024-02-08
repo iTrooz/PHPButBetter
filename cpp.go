@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"os/exec"
 	"path"
 )
 
@@ -15,12 +16,12 @@ func CppHandler(w http.ResponseWriter, filepath string) error {
 	}
 
 	compiledCodePath := path.Join(tmpFolder, "a.out")
-	_, err = RunCmd("g++", filepath, "-o", compiledCodePath)
+	_, err = RunCmd(exec.Command("g++", filepath, "-o", compiledCodePath))
 	if err != nil {
 		return err
 	}
 
-	stdout, err := RunCmd(compiledCodePath)
+	stdout, err := RunCmd(exec.Command(compiledCodePath))
 	if err != nil {
 		return err
 	}
