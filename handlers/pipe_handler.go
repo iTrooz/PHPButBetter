@@ -22,7 +22,7 @@ func PipeHandler(cmdName string, w http.ResponseWriter, filepath string) error {
 
 	cmd := exec.Command(cmdName)
 	cmd.Stdin = f
-	stdout, err := RunCmd(cmd)
+	stdout, err := runCmd(cmd)
 	if err != nil {
 		return err
 	}

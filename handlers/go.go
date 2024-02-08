@@ -7,7 +7,7 @@ import (
 )
 
 func GoHandler(w http.ResponseWriter, filepath string) error {
-	stdout, err := RunCmd(exec.Command("go", "run", filepath))
+	stdout, err := runCmd(exec.Command("go", "run", filepath))
 	if err != nil {
 		return err
 	}

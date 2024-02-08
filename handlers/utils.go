@@ -5,7 +5,7 @@ import (
 	"os/exec"
 )
 
-func RunCmd(cmd *exec.Cmd) (*bytes.Buffer, error) {
+func runCmd(cmd *exec.Cmd) (*bytes.Buffer, error) {
 	var stdout, stderr bytes.Buffer
 	cmd.Stdout = &stdout
 	cmd.Stderr = &stderr

@@ -18,12 +18,12 @@ func JavaHandler(w http.ResponseWriter, filepath string) error {
 
 	className := strings.TrimSuffix(path.Base(filepath), ".java")
 
-	_, err = RunCmd(exec.Command("javac", filepath, "-d", tmpFolder))
+	_, err = runCmd(exec.Command("javac", filepath, "-d", tmpFolder))
 	if err != nil {
 		return err
 	}
 
-	stdout, err := RunCmd(exec.Command("java", "-cp", tmpFolder, className))
+	stdout, err := runCmd(exec.Command("java", "-cp", tmpFolder, className))
 	if err != nil {
 		return err
 	}

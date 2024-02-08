@@ -26,12 +26,12 @@ func CompilHandler(compiler string, w http.ResponseWriter, filepath string) erro
 	}
 
 	compiledCodePath := path.Join(tmpFolder, "a.out")
-	_, err = RunCmd(exec.Command(compiler, filepath, "-o", compiledCodePath))
+	_, err = runCmd(exec.Command(compiler, filepath, "-o", compiledCodePath))
 	if err != nil {
 		return err
 	}
 
-	stdout, err := RunCmd(exec.Command(compiledCodePath))
+	stdout, err := runCmd(exec.Command(compiledCodePath))
 	if err != nil {
 		return err
 	}
