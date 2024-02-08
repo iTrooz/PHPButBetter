@@ -6,3 +6,7 @@ example URL: https://localhost:8080/hello.cpp
 ## Why ?
 
 Because
+
+# How to build ?
+`go run .` to directly run, or `go build` to make an executable file
+
