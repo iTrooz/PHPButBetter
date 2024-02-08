@@ -1,24 +1,18 @@
 package main
 
 import (
-	"bytes"
 	"fmt"
 	"net/http"
-	"os/exec"
 )
 
 func GoHandler(w http.ResponseWriter, filepath string) error {
-
-	cmd := exec.Command("go", "run", filepath)
-	var cmdStdout bytes.Buffer
-	cmd.Stdout = &cmdStdout
-	err := cmd.Run()
+	stdout, err := RunCmd("go", "run", filepath)
 	if err != nil {
-		return fmt.Errorf("Failed to run compiled code: %w", err)
+		return err
 	}
 
-	stdoutSize := cmdStdout.Len()
-	writtenBytes, err := w.Write(cmdStdout.Bytes())
+	stdoutSize := stdout.Len()
+	writtenBytes, err := w.Write(stdout.Bytes())
 	if err != nil {
 		return fmt.Errorf("Failed to write compiled code stdout as response: %w", err)
 	}

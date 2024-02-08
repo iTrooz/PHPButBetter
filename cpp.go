@@ -22,7 +22,7 @@ func CppHandler(w http.ResponseWriter, filepath string) error {
 
 	stdout, err := RunCmd(compiledCodePath)
 	if err != nil {
-		return nil
+		return err
 	}
 
 	stdoutSize := stdout.Len()

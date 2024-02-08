@@ -1,11 +1,9 @@
 package main
 
 import (
-	"bytes"
 	"fmt"
 	"net/http"
 	"os"
-	"os/exec"
 	"path"
 	"strings"
 )
@@ -19,27 +17,18 @@ func JavaHandler(w http.ResponseWriter, filepath string) error {
 
 	className := strings.TrimSuffix(path.Base(filepath), ".java")
 
-	gpp_cmd := exec.Command("javac", filepath, "-d", tmpFolder)
-	var gppStderr bytes.Buffer
-	gpp_cmd.Stderr = &gppStderr
-	err = gpp_cmd.Run()
+	_, err = RunCmd("javac", filepath, "-d", tmpFolder)
 	if err != nil {
-		log.Errorf("Command stderr (corresponding error below):\n%v", gppStderr.String())
-		return fmt.Errorf("Failed to run javac command: %w", err)
+		return err
 	}
 
-	cmd := exec.Command("java", "-cp", tmpFolder, className)
-	var cmdStdout, cmdStderr bytes.Buffer
-	cmd.Stdout = &cmdStdout
-	cmd.Stderr = &cmdStderr
-	err = cmd.Run()
+	stdout, err := RunCmd("java", "-cp", tmpFolder, className)
 	if err != nil {
-		log.Errorf("Command stderr (corresponding error below):\n%v", cmdStderr.String())
-		return fmt.Errorf("Failed to run java code: %w", err)
+		return err
 	}
 
-	stdoutSize := cmdStdout.Len()
-	writtenBytes, err := w.Write(cmdStdout.Bytes())
+	stdoutSize := stdout.Len()
+	writtenBytes, err := w.Write(stdout.Bytes())
 	if err != nil {
 		return fmt.Errorf("Failed to write code stdout as response: %w", err)
 	}
