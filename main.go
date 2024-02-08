@@ -26,6 +26,8 @@ func GetSpecificHandler(ext string) func(w http.ResponseWriter, filepath string)
 		return CppHandler
 	case ".go":
 		return GoHandler
+	case ".java":
+		return JavaHandler
 	}
 	return nil
 }
