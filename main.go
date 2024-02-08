@@ -6,6 +6,7 @@ import (
 	"os"
 	"path"
 	"path/filepath"
+	"phpbutbetter/handlers"
 	"strconv"
 
 	"github.com/op/go-logging"
@@ -23,21 +24,21 @@ func getEnv(key, fallback string) string {
 func GetSpecificHandler(ext string) func(w http.ResponseWriter, filepath string) error {
 	switch ext {
 	case ".c":
-		return CHandler
+		return handlers.CHandler
 	case ".cpp":
-		return CppHandler
+		return handlers.CppHandler
 	case ".go":
-		return GoHandler
+		return handlers.GoHandler
 	case ".java":
-		return JavaHandler
+		return handlers.JavaHandler
 	case ".b":
-		return PipeWrapper("bf")
+		return handlers.PipeWrapper("bf")
 	case ".py":
-		return PipeWrapper("python")
+		return handlers.PipeWrapper("python")
 	case ".js":
-		return PipeWrapper("node")
+		return handlers.PipeWrapper("node")
 	case ".rs":
-		return RustHandler
+		return handlers.RustHandler
 	}
 	return nil
 }

@@ -1,4 +1,4 @@
-package main
+package handlers
 
 import (
 	"fmt"
@@ -6,32 +6,24 @@ import (
 	"os"
 	"os/exec"
 	"path"
+	"strings"
 )
 
-func CHandler(w http.ResponseWriter, filepath string) error {
-	return CompilHandler("gcc", w, filepath)
-}
-func CppHandler(w http.ResponseWriter, filepath string) error {
-	return CompilHandler("g++", w, filepath)
-}
-func RustHandler(w http.ResponseWriter, filepath string) error {
-	return CompilHandler("rustc", w, filepath)
-}
-
-func CompilHandler(compiler string, w http.ResponseWriter, filepath string) error {
+func JavaHandler(w http.ResponseWriter, filepath string) error {
 
 	tmpFolder, err := os.MkdirTemp("", "phpbutbetter")
 	if err != nil {
 		return fmt.Errorf("Failed to create temporary folder: %w", err)
 	}
 
-	compiledCodePath := path.Join(tmpFolder, "a.out")
-	_, err = RunCmd(exec.Command(compiler, filepath, "-o", compiledCodePath))
+	className := strings.TrimSuffix(path.Base(filepath), ".java")
+
+	_, err = RunCmd(exec.Command("javac", filepath, "-d", tmpFolder))
 	if err != nil {
 		return err
 	}
 
-	stdout, err := RunCmd(exec.Command(compiledCodePath))
+	stdout, err := RunCmd(exec.Command("java", "-cp", tmpFolder, className))
 	if err != nil {
 		return err
 	}

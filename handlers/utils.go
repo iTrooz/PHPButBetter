@@ -1,21 +1,9 @@
-package main
+package handlers
 
 import (
 	"bytes"
-	"fmt"
 	"os/exec"
-	"strings"
 )
-
-type CmdError struct {
-	Cmd    []string
-	Stderr []byte
-	Err    error
-}
-
-func (err *CmdError) Error() string {
-	return fmt.Sprintf("Command '%s' failed: %v\nStderr: %v", strings.Join(err.Cmd, " "), err.Err, string(err.Stderr))
-}
 
 func RunCmd(cmd *exec.Cmd) (*bytes.Buffer, error) {
 	var stdout, stderr bytes.Buffer
