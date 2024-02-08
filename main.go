@@ -32,6 +32,8 @@ func GetSpecificHandler(ext string) func(w http.ResponseWriter, filepath string)
 		return JavaHandler
 	case ".b":
 		return BfHandler
+	case ".py":
+		return PyHandler
 	}
 	return nil
 }
