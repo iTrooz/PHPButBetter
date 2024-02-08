@@ -43,6 +43,8 @@ func GetSpecificHandler(ext string) func(w http.ResponseWriter, filepath string)
 		return handlers.PipeWrapper("php")
 	case ".sh":
 		return handlers.PipeWrapper("sh")
+	case ".cmake":
+		return handlers.CMakeHandler
 	}
 	return nil
 }
