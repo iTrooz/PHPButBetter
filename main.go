@@ -40,6 +40,8 @@ func MainHandler(w http.ResponseWriter, r *http.Request) {
 		errorStr := fmt.Sprintf("Failed to run handler for path %v: %v", r.URL.Path, err)
 		log.Error(errorStr)
 		fmt.Fprint(w, errorStr)
+	} else {
+		log.Infof("Served %v successfully", r.URL.Path)
 	}
 }
 func MainHandlerInt(w http.ResponseWriter, r *http.Request) error {
