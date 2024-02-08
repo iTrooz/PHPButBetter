@@ -1,11 +1,9 @@
 package main
 
 import (
-	"bytes"
 	"fmt"
 	"net/http"
 	"os"
-	"os/exec"
 	"path"
 )
 
@@ -17,25 +15,18 @@ func CppHandler(w http.ResponseWriter, filepath string) error {
 	}
 
 	compiledCodePath := path.Join(tmpFolder, "a.out")
-	gpp_cmd := exec.Command("g++", filepath, "-o", compiledCodePath)
-	var gppStderr bytes.Buffer
-	gpp_cmd.Stderr = &gppStderr
-	err = gpp_cmd.Run()
+	_, err = RunCmd("g++", filepath, "-o", compiledCodePath)
 	if err != nil {
-		log.Errorf("Command stderr (corresponding error below):\n%v", gppStderr.String())
-		return fmt.Errorf("Failed to run g++ command: %w", err)
+		return err
 	}
 
-	cmd := exec.Command(compiledCodePath)
-	var cmdStdout bytes.Buffer
-	cmd.Stdout = &cmdStdout
-	err = cmd.Run()
+	stdout, err := RunCmd(compiledCodePath)
 	if err != nil {
-		return fmt.Errorf("Failed to run compiled code: %w", err)
+		return nil
 	}
 
-	stdoutSize := cmdStdout.Len()
-	writtenBytes, err := w.Write(cmdStdout.Bytes())
+	stdoutSize := stdout.Len()
+	writtenBytes, err := w.Write(stdout.Bytes())
 	if err != nil {
 		return fmt.Errorf("Failed to write compiled code stdout as response: %w", err)
 	}
