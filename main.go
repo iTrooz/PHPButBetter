@@ -41,6 +41,8 @@ func GetSpecificHandler(ext string) func(w http.ResponseWriter, filepath string)
 		return handlers.RustHandler
 	case ".php":
 		return handlers.PipeWrapper("php")
+	case ".sh":
+		return handlers.PipeWrapper("sh")
 	}
 	return nil
 }
