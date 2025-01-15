@@ -1,7 +1,12 @@
 # PHPButBetter
 
 Allows you to use other languages than PHP to serve web content
-example URL: https://localhost:8080/main.cpp
+
+example URLs:
+- https://localhost:8080/main.cpp
+- https://localhost:8080/main.java
+- https://localhost:8080/main.rs
+- https://localhost:8080/main.sh
 
 ## Why ?
 
